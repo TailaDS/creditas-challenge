@@ -6,11 +6,14 @@ function App() {
   const [ paymentDeadline, setPaymentDeadline ] = useState<string>();
   const [ birthdate, setBirthdate ] = useState<Date>();
   const [ age, setAge ] = useState<number>();
+  const [ interestRate, setInterestRate ] = useState<number>();
 
   const handleSubmit = () => {
     const age = calculateAge()
     setAge(age)
-    alert(`Fazer cálculo com os dados do forms: ${loanValue}, ${paymentDeadline}`)
+
+    const rate = calculateInterestRate(age)
+    setInterestRate(rate)
   }
 
   const handleLoanChange = (value: string) => {
@@ -29,20 +32,44 @@ function App() {
     setBirthdate(date);
   }
 
-  function calculateAge(): number {
+  function calculateAge() {
     const date = new Date();
     const today = date.getDate();
     const currentMonth = date.getMonth();
 
-    let age = date.getFullYear() - birthdate?.getFullYear();
+    let age = date.getFullYear() - birthdate!.getFullYear();
 
     if (
-      currentMonth < birthdate?.getMonth()
+      currentMonth < birthdate!.getMonth()
       || (currentMonth === birthdate?.getMonth() && today < birthdate?.getDate())
     ) {
       age--;
     }
     return age
+  }
+
+  function calculateInterestRate(age: number) {
+    let rate: number = 0;
+
+    if (age < 25) {
+      console.log("25")
+      rate = 0.05;
+      console.log(rate)
+    } else if (age >= 26 && age < 40) {
+      console.log("26-40")
+      rate = 0.03;
+      console.log(rate)
+    } else if (age >= 41 && age < 60) {
+      console.log("41-60")
+      rate = 0.02;
+      console.log(rate)
+    } else {
+      console.log("else")
+      rate = 0.04;
+      console.log(rate)
+    }
+
+    return rate;
   }
 
   return (
@@ -58,6 +85,7 @@ function App() {
             min="0"
             type="number"
             onChange={(e) => handleLoanChange(e.target.value)}
+            value={loanValue}
             required
           /><br/>
 
@@ -66,6 +94,7 @@ function App() {
             type="number"
             id="payment-deadline"
             min="0"
+            value={paymentDeadline}
             onChange={(event) => handlePaymentChange(event.target.value)}
             required
           /><br/>
@@ -92,7 +121,7 @@ function App() {
         </div>
         <div>
           <label htmlFor="rate">Taxa de Juros:</label>
-          <p>5,0%</p>
+          <p>{interestRate}</p>
         </div>
         <div>
           <label htmlFor="installment">Parcela Mensal:</label>
