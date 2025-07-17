@@ -5,9 +5,12 @@ function App() {
   const [ loanValue, setLoanValue ] = useState<string>();
   const [ paymentDeadline, setPaymentDeadline ] = useState<string>();
   const [ birthdate, setBirthdate ] = useState<Date>();
+  const [ age, setAge ] = useState<number>();
 
   const handleSubmit = () => {
-    alert(`Fazer cálculo com os dados do forms: ${loanValue}, ${paymentDeadline}, ${birthdate}`)
+    const age = calculateAge()
+    setAge(age)
+    alert(`Fazer cálculo com os dados do forms: ${loanValue}, ${paymentDeadline}`)
   }
 
   const handleLoanChange = (value: string) => {
@@ -21,8 +24,25 @@ function App() {
   }
 
   const handleBirthdateChange = (value: string) => {
-    const date: Date = new Date(value)
+    const [year, month, day] = value.split('-').map(Number);
+    const date: Date = new Date(year, month -1, day)
     setBirthdate(date);
+  }
+
+  function calculateAge(): number {
+    const date = new Date();
+    const today = date.getDate();
+    const currentMonth = date.getMonth();
+
+    let age = date.getFullYear() - birthdate?.getFullYear();
+
+    if (
+      currentMonth < birthdate?.getMonth()
+      || (currentMonth === birthdate?.getMonth() && today < birthdate?.getDate())
+    ) {
+      age--;
+    }
+    return age
   }
 
   return (
@@ -46,7 +66,7 @@ function App() {
             type="number"
             id="payment-deadline"
             min="0"
-            onChange={(event) => handlePaymentChange(event.currentTarget.value)}
+            onChange={(event) => handlePaymentChange(event.target.value)}
             required
           /><br/>
 
@@ -66,7 +86,26 @@ function App() {
 
       <div>
         <p>Preencha os dados para visualizar o resultado da simulação</p>
-        // TODO: remover tag e adicionar sessão de resultados
+        <div>
+          <label htmlFor="age">Sua Idade:</label>
+          <p>{age} anos</p>
+        </div>
+        <div>
+          <label htmlFor="rate">Taxa de Juros:</label>
+          <p>5,0%</p>
+        </div>
+        <div>
+          <label htmlFor="installment">Parcela Mensal:</label>
+          <p>R$ 80,00</p>
+        </div>
+        <div>
+          <label htmlFor="total-amount">Total a Pagar:</label>
+          <p>R$ 1080,00</p>
+        </div>
+        <div>
+          <label htmlFor="total-interest">Total de Juros:</label>
+          <p>R$ 5,00</p>
+        </div>
       </div>
     </>
   )
