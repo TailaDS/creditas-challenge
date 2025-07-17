@@ -1,28 +1,38 @@
-import { useState } from "react"
+import React, { useState } from "react"
 
 function App() {
-
-  const [ loanValue, setLoanValue ] = useState<string>();
-  const [ paymentDeadline, setPaymentDeadline ] = useState<string>();
+  const [ loanValue, setLoanValue ] = useState<number>(0);
+  const [ paymentDeadline, setPaymentDeadline ] = useState<number>(0);
   const [ birthdate, setBirthdate ] = useState<Date>();
   const [ age, setAge ] = useState<number>();
-  const [ interestRate, setInterestRate ] = useState<number>();
+  const [ interestRate, setInterestRate ] = useState<number>(0);
+  const [ monthlyPayment, setMonthlyPayment ] = useState<number>(0);
 
-  const handleSubmit = () => {
-    const age = calculateAge()
-    setAge(age)
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-    const rate = calculateInterestRate(age)
-    setInterestRate(rate)
+    if (!loanValue || !paymentDeadline || !birthdate) {
+      alert("Preencha os campos");
+      return;
+    }
+
+    const age = calculateAge();
+    const rate = calculateInterestRate(age);
+    console.log(loanValue, rate, paymentDeadline)
+    const pmt = calculateMonthlyPayment(loanValue, rate, paymentDeadline);
+
+    setAge(age);
+    setInterestRate(rate);
+    setMonthlyPayment(pmt);
   }
 
   const handleLoanChange = (value: string) => {
-    const numbers = value.replace(/[^\d,]/g, '');
+    const numbers = parseFloat(value.replace(/[^\d,]/g, ''));
     setLoanValue(numbers);
   }
 
   const handlePaymentChange = (value: string) => {
-    const numbers = value.replace(/[^\d,]/g, '');
+    const numbers = parseInt(value.replace(/[^\d,]/g, ''));
     setPaymentDeadline(numbers);
   }
 
@@ -49,34 +59,23 @@ function App() {
   }
 
   function calculateInterestRate(age: number) {
-    let rate: number = 0;
+    if (age <= 25) return 0.05;
+    if (age >= 26 && age < 40) return 0.03;
+    if (age >= 41 && age < 60) return 0.02;
+    return 0.04;
+  }
 
-    if (age < 25) {
-      console.log("25")
-      rate = 0.05;
-      console.log(rate)
-    } else if (age >= 26 && age < 40) {
-      console.log("26-40")
-      rate = 0.03;
-      console.log(rate)
-    } else if (age >= 41 && age < 60) {
-      console.log("41-60")
-      rate = 0.02;
-      console.log(rate)
-    } else {
-      console.log("else")
-      rate = 0.04;
-      console.log(rate)
-    }
-
-    return rate;
+  function calculateMonthlyPayment(loan: number, annualRate: number, n: number): number {
+    const r = annualRate / 12;
+    const pmt = (loan * r) / (1 - Math.pow(1 + r, -n));
+    return pmt;
   }
 
   return (
     <>
       <div>
         <h1>Simule seu Empréstimo</h1>
-        <form id="simulation-values">
+        <form id="simulation-values" onSubmit={handleSubmit}>
           <label>Dados da Simulação</label><br /> <br />
 
           <label htmlFor="loan-value">Valor do Empréstimo</label><br/>
@@ -109,7 +108,7 @@ function App() {
             required
           /><br /> <br />
 
-          <button onClick={handleSubmit}>Simular Empréstimo</button>
+          <button type="submit">Simular Empréstimo</button>
         </form>
       </div>
 
@@ -121,19 +120,19 @@ function App() {
         </div>
         <div>
           <label htmlFor="rate">Taxa de Juros:</label>
-          <p>{interestRate}</p>
+          <p>{(interestRate * 100)}%</p>
         </div>
         <div>
           <label htmlFor="installment">Parcela Mensal:</label>
-          <p>R$ 80,00</p>
+          <p>R$ {monthlyPayment?.toFixed(2)}</p>
         </div>
         <div>
           <label htmlFor="total-amount">Total a Pagar:</label>
-          <p>R$ 1080,00</p>
+          <p>R$ {(monthlyPayment * (paymentDeadline ?? 0)).toFixed(2)}</p>
         </div>
         <div>
           <label htmlFor="total-interest">Total de Juros:</label>
-          <p>R$ 5,00</p>
+          <p>R$ {(monthlyPayment * (paymentDeadline ?? 0) - (loanValue ?? 0)).toFixed(2)}</p>
         </div>
       </div>
     </>
