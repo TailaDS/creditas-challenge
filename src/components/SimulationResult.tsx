@@ -1,3 +1,5 @@
+import { Label, SimulationForm, Subtitle } from "../styles/styles";
+
 interface Props {
   age?: number;
   interestRate: number;
@@ -15,32 +17,33 @@ function SimulationResult({
 }: Props) {
 
   return (
-    <>
+    <SimulationForm>
+      <Subtitle>Preencha os dados para visualizar o resultado da simulação</Subtitle>
       <div>
-        <label htmlFor="age">Sua Idade:</label>
+        <Label htmlFor="age">Sua Idade:</Label>
         <p>{age ?? null} anos</p>
       </div>
 
       <div>
-        <label htmlFor="rate">Taxa de Juros:</label>
+        <Label htmlFor="rate">Taxa de Juros:</Label>
         <p>{(interestRate * 100)}%</p>
       </div>
 
       <div>
-        <label htmlFor="installment">Parcela Mensal:</label>
+        <Label htmlFor="installment">Parcela Mensal:</Label>
         <p>R$ {monthlyPayment?.toFixed(2)}</p>
       </div>
 
       <div>
-        <label htmlFor="total-amount">Total a Pagar:</label>
+        <Label htmlFor="total-amount">Total a Pagar:</Label>
         <p>R$ {(monthlyPayment * (paymentDeadline ?? 0)).toFixed(2)}</p>
       </div>
 
       <div>
-        <label htmlFor="total-interest">Total de Juros:</label>
+        <Label htmlFor="total-interest">Total de Juros:</Label>
         <p>R$ {(monthlyPayment * (paymentDeadline ?? 0) - (loanValue ?? 0)).toFixed(2)}</p>
       </div>
-    </>
+    </SimulationForm>
   )
 }
 

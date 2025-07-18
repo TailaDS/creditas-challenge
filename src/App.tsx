@@ -1,6 +1,7 @@
 import SimulationValues from "./components/SimulationValues";
 import SimulationResult from "./components/SimulationResult";
 import useLoanSimulation from "./hooks/useLoanSimulation";
+import { Container, Main, Title } from "./styles/styles";
 
 function App() {
   const {
@@ -16,9 +17,9 @@ function App() {
   } = useLoanSimulation();
 
   return (
-    <>
-      <div>
-        <h1>Simule seu Empréstimo</h1>
+    <Main>
+      <Title>Simule seu Empréstimo</Title>
+      <Container>
         <SimulationValues
           loanValue={loanValue}
           paymentDeadline={paymentDeadline}
@@ -27,10 +28,7 @@ function App() {
           setBirthDate={setBirthDate}
           handleSubmit={handleSubmit}
         />
-      </div>
 
-      <div>
-        <p>Preencha os dados para visualizar o resultado da simulação</p>
         <SimulationResult
           age={age}
           interestRate={interestRate}
@@ -38,8 +36,8 @@ function App() {
           paymentDeadline={paymentDeadline}
           loanValue={loanValue}
         />
-      </div>
-    </>
+      </Container>
+    </Main>
   )
 }
 

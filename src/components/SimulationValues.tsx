@@ -1,4 +1,5 @@
 import React from "react";
+import { Input, Label, SimulationForm, SubimitButton, Subtitle } from "../styles/styles";
 
 interface Props {
   loanValue: number;
@@ -35,11 +36,11 @@ function SimulationValues({
   }
 
   return (
-    <form id="simulation-values" onSubmit={handleSubmit}>
-      <label>Dados da Simulação</label>
+    <SimulationForm onSubmit={handleSubmit}>
+      <Subtitle>Dados da Simulação</Subtitle>
       <div>
-        <label htmlFor="loan-value">Valor do Empréstimo</label><br/>
-        <input
+        <Label htmlFor="loan-value">Valor do Empréstimo</Label>
+        <Input
           id="loan-value"
           min="0"
           type="number"
@@ -50,8 +51,8 @@ function SimulationValues({
       </div>
 
       <div>
-        <label htmlFor="payment-deadline">Prazo para Pagamento</label><br/>
-        <input
+        <Label htmlFor="payment-deadline">Prazo para Pagamento</Label>
+        <Input
           type="number"
           id="payment-deadline"
           min="0"
@@ -62,8 +63,8 @@ function SimulationValues({
       </div>
 
       <div>
-        <label htmlFor="birthday">Data de Nascimento</label><br/>
-          <input
+        <Label htmlFor="birthday">Data de Nascimento</Label>
+          <Input
             type="date"
             id="birthday"
             min="1910-01-01"
@@ -73,8 +74,8 @@ function SimulationValues({
           />
       </div>
 
-      <button type="submit">Simular Empréstimo</button>
-    </form>
+      <SubimitButton type="submit">Simular Empréstimo</SubimitButton>
+    </SimulationForm>
   )
 }
 
