@@ -1,12 +1,18 @@
 import React from "react";
-import { Input, Label, SimulationForm, SubimitButton, Subtitle } from "../styles/styles";
+import {
+  Input,
+  Label,
+  SimulationForm,
+  SubimitButton,
+  Subtitle
+} from "../styles/styles";
 
 interface Props {
-  loanValue: number;
-  paymentDeadline: number;
-  setLoanValue: (value: number) => void;
-  setPaymentDeadline: (value: number) => void;
-  setBirthDate: (date: Date) => void;
+  loanValue: string;
+  paymentDeadline: string;
+  setLoanValue: (value: string) => void;
+  setPaymentDeadline: (value: string) => void;
+  setBirthdate: (date: Date) => void;
   handleSubmit: (event: React.FormEvent) => void;
 }
 
@@ -15,24 +21,21 @@ function SimulationValues({
   paymentDeadline,
   setLoanValue,
   setPaymentDeadline,
-  setBirthDate,
+  setBirthdate,
   handleSubmit
-
 }: Props) {
   const handleLoanChange = (value: string) => {
-    const numbers = parseFloat(value.replace(/[^\d,]/g, ''));
-    setLoanValue(numbers);
+    setLoanValue(value);
   }
 
   const handlePaymentChange = (value: string) => {
-    const numbers = parseInt(value.replace(/[^\d,]/g, ''));
-    setPaymentDeadline(numbers);
+    setPaymentDeadline(value);
   }
 
   const handleBirthdateChange = (value: string) => {
     const [year, month, day] = value.split('-').map(Number);
     const date: Date = new Date(year, month -1, day)
-    setBirthDate(date);
+    setBirthdate(date);
   }
 
   return (
@@ -42,10 +45,12 @@ function SimulationValues({
         <Label htmlFor="loan-value">Valor do Empréstimo</Label>
         <Input
           id="loan-value"
-          min="0"
+          data-testid="loan-value-input"
           type="number"
-          onChange={(e) => handleLoanChange(e.target.value)}
+          min="0"
+          placeholder="Ex.: 1000"
           value={loanValue}
+          onChange={(e) => handleLoanChange(e.target.value)}
           required
         />
       </div>
@@ -53,9 +58,11 @@ function SimulationValues({
       <div>
         <Label htmlFor="payment-deadline">Prazo para Pagamento</Label>
         <Input
-          type="number"
           id="payment-deadline"
+          data-testid="payment-deadline-input"
+          type="number"
           min="0"
+          placeholder="Ex.: 12"
           value={paymentDeadline}
           onChange={(event) => handlePaymentChange(event.target.value)}
           required
@@ -63,13 +70,18 @@ function SimulationValues({
       </div>
 
       <div>
-        <Label htmlFor="birthday">Data de Nascimento</Label>
+        <Label htmlFor="birthdate">Data de Nascimento</Label>
           <Input
+            id="birthdate"
+            data-testid="birthdate-input"
             type="date"
-            id="birthday"
             min="1910-01-01"
             max="2025-01-01"
-            onChange={(e) => handleBirthdateChange(e.target.value)}
+            placeholder="dd/mm/aaaa"
+            onChange={(e) => {
+              handleBirthdateChange(e.target.value)
+              console.log(e.target.value)
+            }}
             required
           />
       </div>

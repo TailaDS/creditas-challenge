@@ -4,8 +4,8 @@ interface Props {
   age?: number;
   interestRate: number;
   monthlyPayment: number;
-  paymentDeadline: number;
-  loanValue: number;
+  paymentDeadline: string;
+  loanValue: string;
 }
 
 function SimulationResult({
@@ -36,12 +36,12 @@ function SimulationResult({
 
       <div>
         <Label htmlFor="total-amount">Total a Pagar:</Label>
-        <p>R$ {(monthlyPayment * (paymentDeadline ?? 0)).toFixed(2)}</p>
+        <p>R$ {(monthlyPayment * Number(paymentDeadline)).toFixed(2)}</p>
       </div>
 
       <div>
         <Label htmlFor="total-interest">Total de Juros:</Label>
-        <p>R$ {(monthlyPayment * (paymentDeadline ?? 0) - (loanValue ?? 0)).toFixed(2)}</p>
+        <p>R$ {(monthlyPayment * Number(paymentDeadline) - Number(loanValue)).toFixed(2)}</p>
       </div>
     </SimulationForm>
   )

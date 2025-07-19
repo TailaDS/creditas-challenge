@@ -12,7 +12,7 @@ function App() {
     monthlyPayment,
     setLoanValue,
     setPaymentDeadline,
-    setBirthDate,
+    setBirthdate,
     handleSubmit,
   } = useLoanSimulation();
 
@@ -25,7 +25,7 @@ function App() {
           paymentDeadline={paymentDeadline}
           setLoanValue={setLoanValue}
           setPaymentDeadline={setPaymentDeadline}
-          setBirthDate={setBirthDate}
+          setBirthdate={setBirthdate}
           handleSubmit={handleSubmit}
         />
 

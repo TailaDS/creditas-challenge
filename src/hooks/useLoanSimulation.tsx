@@ -2,9 +2,9 @@ import { useState } from "react";
 import { calculateAge, calculateInterestRate, calculateMonthlyPayment } from "../utils/calculate";
 
 function useLoanSimulation () {
-  const [ loanValue, setLoanValue ] = useState<number>(0);
-  const [ paymentDeadline, setPaymentDeadline ] = useState<number>(0);
-  const [ birthDate, setBirthDate ] = useState<Date>();
+  const [ loanValue, setLoanValue ] = useState<string>("");
+  const [ paymentDeadline, setPaymentDeadline ] = useState<string>("");
+  const [ birthdate, setBirthdate ] = useState<Date>();
   const [ age, setAge ] = useState<number>();
   const [ interestRate, setInterestRate ] = useState<number>(0);
   const [ monthlyPayment, setMonthlyPayment ] = useState<number>(0);
@@ -12,14 +12,16 @@ function useLoanSimulation () {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!loanValue || !paymentDeadline || !birthDate) {
+    if (!loanValue || !paymentDeadline || !birthdate) {
       alert("Preencha os campos");
       return;
     }
+    const loanValueNumber = Number(loanValue.replace(/\D/g, ""))
+    const paymentDeadlineNumber = Number(paymentDeadline.replace(/\D/g, ""))
 
-    const age = calculateAge(birthDate);
+    const age = calculateAge(birthdate);
     const rate = calculateInterestRate(age);
-    const pmt = calculateMonthlyPayment(loanValue, rate, paymentDeadline);
+    const pmt = calculateMonthlyPayment(loanValueNumber, rate, paymentDeadlineNumber);
 
     setAge(age);
     setInterestRate(rate);
@@ -29,13 +31,13 @@ function useLoanSimulation () {
   return {
     loanValue,
     paymentDeadline,
-    birthDate,
+    birthdate,
     age,
     interestRate,
     monthlyPayment,
     setLoanValue,
     setPaymentDeadline,
-    setBirthDate,
+    setBirthdate,
     handleSubmit,
   }
 }
