@@ -21,27 +21,27 @@ function SimulationResult({
       <Subtitle>Preencha os dados para visualizar o resultado da simulação</Subtitle>
       <div>
         <Label htmlFor="age">Sua Idade:</Label>
-        <p>{age ?? null} anos</p>
+        <p data-testid="age">{age ?? null} anos</p>
       </div>
 
       <div>
         <Label htmlFor="rate">Taxa de Juros:</Label>
-        <p>{(interestRate * 100)}%</p>
+        <p data-testid="interest-rate-value">{(interestRate * 100)}%</p>
       </div>
 
       <div>
         <Label htmlFor="installment">Parcela Mensal:</Label>
-        <p>R$ {monthlyPayment?.toFixed(2)}</p>
+        <p data-testid="installment-value">R$ {monthlyPayment?.toFixed(2)}</p>
       </div>
 
       <div>
         <Label htmlFor="total-amount">Total a Pagar:</Label>
-        <p>R$ {(monthlyPayment * Number(paymentDeadline)).toFixed(2)}</p>
+        <p data-testid="total-amount-value">R$ {(monthlyPayment * Number(paymentDeadline)).toFixed(2)}</p>
       </div>
 
       <div>
         <Label htmlFor="total-interest">Total de Juros:</Label>
-        <p>R$ {(monthlyPayment * Number(paymentDeadline) - Number(loanValue)).toFixed(2)}</p>
+        <p data-testid="total-interest-value">R$ {(monthlyPayment * Number(paymentDeadline) - Number(loanValue)).toFixed(2)}</p>
       </div>
     </SimulationForm>
   )

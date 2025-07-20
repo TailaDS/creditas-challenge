@@ -78,10 +78,7 @@ function SimulationValues({
             min="1910-01-01"
             max="2025-01-01"
             placeholder="dd/mm/aaaa"
-            onChange={(e) => {
-              handleBirthdateChange(e.target.value)
-              console.log(e.target.value)
-            }}
+            onChange={(e) => handleBirthdateChange(e.target.value)}
             required
           />
       </div>
