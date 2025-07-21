@@ -8,6 +8,7 @@ function useLoanSimulation () {
   const [ age, setAge ] = useState<number>();
   const [ interestRate, setInterestRate ] = useState<number>(0);
   const [ monthlyPayment, setMonthlyPayment ] = useState<number>(0);
+  const [ isCalculated, setIsCalculated ] = useState<boolean>(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -26,6 +27,7 @@ function useLoanSimulation () {
     setAge(age);
     setInterestRate(rate);
     setMonthlyPayment(pmt);
+    setIsCalculated(true);
   }
 
   return {
@@ -35,10 +37,12 @@ function useLoanSimulation () {
     age,
     interestRate,
     monthlyPayment,
+    isCalculated,
     setLoanValue,
     setPaymentDeadline,
     setBirthdate,
     handleSubmit,
+    setIsCalculated
   }
 }
 

@@ -2,7 +2,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import '@testing-library/jest-dom';
 import SimulationValues from "../components/SimulationValues";
-import SimulationResult from "../components/SimulationResult";
+import { LoanSimulationMock } from "./mocks";
 
 describe('Loan Simulation - Unit tests', () => {
   let loanValue = "";
@@ -62,51 +62,8 @@ describe('Loan Simulation - Unit tests', () => {
 });
 
 describe('Loan Simulation - Integration test', () => {
-  let paymentDeadline = "";
-  let loanValue = "";
-  let result = {
-    age: 0,
-    interestRate: 0,
-    monthlyPayment: 0,
-    totalAmount: 0,
-    totalInterest: 0,
-  };
-
-  const setLoanValue = jest.fn((value) => (loanValue = value));
-  const setPaymentDeadline = jest.fn((value) => (paymentDeadline = value));
-  const setBirthdate = jest.fn();
-
-  const submitButton = () => {
-    result = {
-      age: 24,
-      interestRate: 5,
-      monthlyPayment: 856.07,
-      totalAmount: 10272.9,
-      totalInterest: 272.9,
-    };
-  };
-
   beforeEach(() => {
-    render(
-      <>
-        <SimulationValues
-          loanValue={loanValue}
-          paymentDeadline={paymentDeadline}
-          setLoanValue={setLoanValue}
-          setPaymentDeadline={setPaymentDeadline}
-          setBirthdate={setBirthdate}
-          handleSubmit={submitButton}
-        />
-
-        <SimulationResult
-          age={0}
-          interestRate={0}
-          monthlyPayment={0}
-          paymentDeadline={paymentDeadline}
-          loanValue={loanValue}
-        />
-      </>
-    );
+    render(<LoanSimulationMock />);
   });
 
   afterEach(() => {
@@ -114,7 +71,7 @@ describe('Loan Simulation - Integration test', () => {
     jest.clearAllMocks();
   });
 
-  it('When the form receives correct data, the result should be displayed on the screen', async () => {
+  it('when the form receives correct data, the result should be displayed on the screen', async () => {
     const loanValueInput = screen.getByTestId("loan-value-input");
     const paymentDeadlineInput = screen.getByTestId("payment-deadline-input");
     const birthdateInput = screen.getByTestId("birthdate-input");
@@ -125,10 +82,10 @@ describe('Loan Simulation - Integration test', () => {
     await userEvent.type(birthdateInput, "2001-02-28")
     await userEvent.click(submitButton)
 
-    expect(screen.getByTestId("age")).toHaveTextContent(`${result.age} anos`)
-    expect(screen.getByTestId("interest-rate-value")).toHaveTextContent(`${result.interestRate}%`)
-    expect(screen.getByTestId("installment-value")).toHaveTextContent(`R$ ${result.monthlyPayment}`)
-    expect(screen.getByTestId("total-amount-value")).toHaveTextContent(`R$ ${result.totalAmount}`)
-    expect(screen.getByTestId("total-interest-value")).toHaveTextContent(`R$ ${result.totalInterest}`)
+    expect(screen.getByTestId("age")).toHaveTextContent("24 anos")
+    expect(screen.getByTestId("interest-rate-value")).toHaveTextContent("5%")
+    expect(screen.getByTestId("installment-value")).toHaveTextContent("R$ 1712.15")
+    expect(screen.getByTestId("total-amount-value")).toHaveTextContent("R$ 20545.80")
+    expect(screen.getByTestId("total-interest-value")).toHaveTextContent("R$ 545.80")
   });
 });

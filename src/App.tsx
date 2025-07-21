@@ -10,6 +10,7 @@ function App() {
     age,
     interestRate,
     monthlyPayment,
+    isCalculated,
     setLoanValue,
     setPaymentDeadline,
     setBirthdate,
@@ -35,6 +36,7 @@ function App() {
           monthlyPayment={monthlyPayment}
           paymentDeadline={paymentDeadline}
           loanValue={loanValue}
+          isCalculated={isCalculated}
         />
       </Container>
     </Main>

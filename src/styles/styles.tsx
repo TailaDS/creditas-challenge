@@ -14,6 +14,12 @@ export const Container = styled.div`
   flex-wrap: wrap;
 `
 
+export const Result = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
 export const SimulationForm = styled.form`
   background-color: white;
   display: flex;
@@ -21,6 +27,8 @@ export const SimulationForm = styled.form`
   align-items: stretch;
   align-content: space-around;
   max-width: 450px;
+  min-width: 400px;
+  height: fit-content;
   text-align: left;
   padding: 24px;
   margin: 24px 24px 0;
