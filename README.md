@@ -1,5 +1,20 @@
 # Creditas Challenge
-Aplicação Front-end, que permite simular valores de impréstimo.
+Aplicação Front-end, que permite simular valores de impréstimo, com base na idade.
+
+Regras:
+- Até 25 anos: 5% ao ano.
+- De 26 a 40 anos: 3% ao ano.
+- De 41 a 60 anos: 2% ao ano.
+- Acima de 60 anos: 4% ao ano.
+
+Fórmula que calcula valor de empréstimo:
+<img width="150px" src="./src/assets/pmt.png">
+
+- PMT = Pagamento mensal
+- PV = Valor presente (empréstimo)
+- r = Taxa de juros mensal (taxa anual / 12)
+- n = Número total de pagamentos (meses)
+
 
 ## Índice
 * [Execução da Aplicação](#execução-da-aplicação)
